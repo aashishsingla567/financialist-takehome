@@ -2,11 +2,16 @@
 
 Please use pnpm to install dependencies.
 
-# Login creds:
+Deployed at: https://financialist-takehome.vercel.app/
 
-1. Type 1 ->
-   username : "user1"
-   password : anything
-2. Type 2 ->
-   username: "user2"
-   password: anything
+## Login credentials:
+
+### Type 1:
+
+- username: "user1"
+- password: anything
+
+### Type 2:
+
+- username: "user2"
+- password: anything
