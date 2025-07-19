@@ -1,5 +1,7 @@
 # Financialist Takehome assignment
 
+Please use pnpm to install dependencies.
+
 # Login creds:
 
 1. Type 1 ->
