@@ -15,6 +15,7 @@ export default function LogoutButton() {
     try {
       await postLogout();
       router.push("/");
+      router.refresh();
     } catch (error) {
       console.error("logout error", error);
       window.alert("Something went wrong");
