@@ -17,22 +17,23 @@ export const createAxiosInstance = (): AxiosInstance => {
     },
     withCredentials: true,
   });
+  instance.interceptors.request.use(
+    async (config: InternalAxiosRequestConfig) => {
+      // to include cookies when making requests from server side components
+      const cookieStore = await cookies();
+      const cookieHeader = cookieStore?.toString();
 
-  instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-    // to include cookies when making requests from server side components
-    const cookieStore = cookies();
-    const cookieHeader = cookieStore?.toString();
+      if (!config.headers) {
+        config.headers = new AxiosHeaders();
+      }
 
-    if (!config.headers) {
-      config.headers = new AxiosHeaders();
+      if (cookieHeader) {
+        config.headers.set("Cookie", cookieHeader);
+      }
+
+      return config;
     }
-
-    if (cookieHeader) {
-      config.headers.set("Cookie", cookieHeader);
-    }
-
-    return config;
-  });
+  );
 
   return instance;
 };
