@@ -6,13 +6,27 @@ import { Label } from "./ui/label";
 import { PasswordInput } from "./ui/password-input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { postAuth } from "@/lib/api/client/auth";
+import { useState } from "react";
+import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
+
+// todo :: use same schema on BE and FE, OR use TRPC
+const schema = z.object({
+  username: z.string().min(1, { message: "Username is required" }),
+  password: z
+    .string()
+    .min(1, { message: "Password is required" })
+    .min(8, { message: "Password must be at least 8 characters" }),
+});
 
 const LoginForm = () => {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const {
     control,
     handleSubmit,
-    formState: { isSubmitting, isValid, isValidating, errors },
-    watch,
+    formState: { isSubmitting, isValid },
   } = useForm({
     mode: "onChange",
     criteriaMode: "all",
@@ -20,26 +34,23 @@ const LoginForm = () => {
       username: "",
       password: "",
     },
-    resolver: zodResolver(
-      z.object({
-        username: z.string().min(1, { message: "Username is required" }),
-        password: z
-          .string()
-          .min(1, { message: "Password is required" })
-          .min(8, { message: "Password must be at least 8 characters" })
-          .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/, {
-            message:
-              "Password must contain at least one lowercase letter, one uppercase letter, one number and one special character",
-          }),
-      })
-    ),
+    resolver: zodResolver(schema),
   });
 
-  console.log({ errors, value: watch() });
+  const router = useRouter();
 
   const onSubmit = async (data: { username: string; password: string }) => {
-    console.log("Submitting with", data);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      await postAuth(data);
+      router.refresh();
+      setErrorMessage(null);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setErrorMessage(error.response?.data.message);
+        return;
+      }
+      setErrorMessage("Something went wrong");
+    }
   };
 
   return (
@@ -66,6 +77,12 @@ const LoginForm = () => {
       <Button className="w-full" loading={isSubmitting} disabled={!isValid}>
         Sign in
       </Button>
+      <div className="mt-4 text-sm text-gray-600 text-center">
+        <p>Tip: Use 'user1' for Type 1 user, 'user2' for Type 2</p>
+      </div>
+      {errorMessage && (
+        <p className="text-destructive text-sm">{errorMessage}</p>
+      )}
     </form>
   );
 };

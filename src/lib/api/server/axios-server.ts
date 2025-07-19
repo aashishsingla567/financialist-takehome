@@ -1,0 +1,42 @@
+import axios, {
+  AxiosInstance,
+  InternalAxiosRequestConfig,
+  AxiosHeaders,
+} from "axios";
+
+import { cookies } from "next/headers";
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
+
+export const createAxiosInstance = (): AxiosInstance => {
+  const instance = axios.create({
+    baseURL: API_BASE_URL,
+    timeout: 10000,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    withCredentials: true,
+  });
+
+  instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+    // to include cookies when making requests from server side components
+    const cookieStore = cookies();
+    const cookieHeader = cookieStore?.toString();
+
+    if (!config.headers) {
+      config.headers = new AxiosHeaders();
+    }
+
+    if (cookieHeader) {
+      config.headers.set("Cookie", cookieHeader);
+    }
+
+    return config;
+  });
+
+  return instance;
+};
+
+const instance = createAxiosInstance();
+
+export default instance;

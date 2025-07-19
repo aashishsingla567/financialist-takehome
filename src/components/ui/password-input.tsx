@@ -1,9 +1,10 @@
 "use client";
+
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Input, InputProps } from "./input";
 import { Button } from "./button";
-import { Eye, EyeClosed, EyeClosedIcon, EyeIcon } from "lucide-react";
+import { EyeClosedIcon, EyeIcon } from "lucide-react";
 
 export interface PasswordInputProps extends InputProps {
   showPasswordByDefault?: boolean;
@@ -45,9 +46,9 @@ function PasswordInput({
             onClick={() => setShowPassword((prev) => !prev)}
           >
             {showPassword ? (
-              <EyeClosedIcon className="w-4 h-4" />
-            ) : (
               <EyeIcon className="w-4 h-4" />
+            ) : (
+              <EyeClosedIcon className="w-4 h-4" />
             )}
           </Button>
         </div>

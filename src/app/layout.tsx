@@ -31,12 +31,11 @@ export default function RootLayout({
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <TopNavigation />
-          {children}
+          <div className="max-w-6xl mx-auto">{children}</div>
         </ThemeProvider>
       </body>
     </html>
