@@ -1,7 +1,10 @@
 # Financialist Takehome assignment
 
-## Tech Stack
+# Login creds:
 
-1. Next.js
-2. Tailwind + Shadcn
-3.
+1. Type 1
+   username : "user1"
+   password : anything
+2. Type 2
+   username: "user2"
+   password: anything
