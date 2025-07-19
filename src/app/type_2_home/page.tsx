@@ -24,6 +24,10 @@ async function getProfileData() {
 export default async function Type2Home() {
   const profile = await getProfileData();
 
+  if (!profile) {
+    redirect("/");
+  }
+
   return (
     <>
       <TopNavigation showLogoutButton />

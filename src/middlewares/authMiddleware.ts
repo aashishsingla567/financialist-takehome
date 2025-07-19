@@ -29,8 +29,7 @@ function redirect(url: string, request: NextRequest): NextResponse {
 }
 
 export async function authMiddleware(
-  request: NextRequest,
-  response: NextResponse
+  request: NextRequest
 ): Promise<NextResponse | null> {
   const { pathname } = request.nextUrl;
   const user = getUser(request);

@@ -78,7 +78,10 @@ const LoginForm = () => {
         Sign in
       </Button>
       <div className="mt-4 text-sm text-gray-600 text-center">
-        <p>Tip: Use 'user1' for Type 1 user, 'user2' for Type 2</p>
+        <p>
+          Tip: Use &apos;user1&apos; for Type 1 user, &apos;user2&apos; for Type
+          2
+        </p>
       </div>
       {errorMessage && (
         <p className="text-destructive text-sm">{errorMessage}</p>
